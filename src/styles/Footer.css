@@ -1,0 +1,77 @@
+/* Variables (if you're not using a global CSS file for them) */
+:root {
+  --white: #ffffff;
+  --castletonGreen: #00563b; /* Example dark green */
+  --saffron: #f4c430; /* Example accent color */
+}
+
+.app-footer {
+  background-color: var(--castletonGreen);
+  color: var(--white);
+  padding: 2.5em 1.5em; /* Added horizontal padding */
+  margin-top: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.footer-content-wrapper {
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center items for larger screens */
+  gap: 1em; /* Space between copyright and links */
+}
+
+.footer-copyright {
+  margin: 0; /* Remove default margin */
+  font-size: 0.95rem;
+  opacity: 0.9;
+  text-align: center; /* Ensure text is centered */
+}
+
+.footer-social-links {
+  display: flex;
+  gap: 1.8em;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.footer-social-link {
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.footer-social-link::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 2px;
+  background: var(--saffron);
+  transition: width 0.3s;
+  margin-top: 4px;
+}
+
+.footer-social-link:hover::after {
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .app-footer {
+    padding: 2em 1em; /* Smaller padding on small screens */
+  }
+
+  .footer-social-links {
+    gap: 1em;
+  }
+
+  .footer-copyright {
+    font-size: 0.9rem;
+  }
+}

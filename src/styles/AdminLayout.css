@@ -1,0 +1,52 @@
+.admin-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--seaSalt);
+}
+
+/* Header */
+.admin-header {
+  background-color: var(--white);
+  color: var(--white);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2em 2em;
+}
+
+.admin-logo-img {
+  height: 60px;
+  width: auto;
+  display: block;
+}
+
+.admin-nav {
+  display: flex;
+  gap: 1.5em;
+}
+
+.admin-nav-link {
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.admin-nav-link:hover {
+  color: var(--saffron);
+}
+
+.logout {
+  color: var(--earthYellow);
+  font-weight: 900;
+  font-size: 1.3rem;
+}
+
+/* Content */
+.admin-content {
+  flex: 1;
+  padding: 2em;
+}
+
+

@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap');
+
+:root {
+  --paper: #F5EEDB;
+  --white: #FFFFFF;
+  --seaSalt: #F9F7F7;
+  --darkSerpent: #133020;
+  --castletonGreen: #046241;
+  --saffron: #FFB347;
+  --earthYellow: #FFC370;
+
+  --font-body: 'Manrope', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Manrope', sans-serif; /* Change from Inter */
+  line-height: 1.6;
+  color: var(--darkSerpent);
+  background-color: var(--paper) !important;
+  margin: 0;
+  padding: 0;
+}
+/* Typography scale */
+h1 {
+  font-size: 3rem; /* 48px if base 16 */
+  font-weight: 700;
+  color: var(--castletonGreen);
+  font-family: 'Manrope', sans-serif;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--castletonGreen);
+  font-family: 'Manrope', sans-serif;
+}
+
+h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--castletonGreen);
+  font-family: 'Manrope', sans-serif;
+}
+
+p {
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--darkSerpent);
+}
+
+a {
+  color: var(--saffron);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--earthYellow);
+}
+
+/* Buttons */
+button,
+.btn {
+  border-radius: 8px;
+  border: none;
+  padding: 0.75em 1.5em;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: var(--font-body);
+  background-color: var(--saffron);
+  color: var(--darkSerpent);
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+}
+
+button:hover,
+.btn:hover {
+  background-color: var(--earthYellow);
+}

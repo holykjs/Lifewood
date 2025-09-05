@@ -1,0 +1,187 @@
+/* Base styles for the entire page */
+.projects-page-container {
+  font-family: Arial, sans-serif; /* Adjusted to a common sans-serif font */
+  color: #333;
+  margin: 0;
+  padding: 0;
+  background-color: #f7f7f7; /* Light background for the whole page */
+  box-sizing: border-box;
+}
+
+/* Header section styling */
+.projects-header {
+  text-align: center;
+  padding: 80px 20px 40px; /* Top padding, horizontal, bottom padding */
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 40px; /* Space before the projects grid */
+}
+
+.projects-header h1 {
+  font-size: 3.5em; /* Larger, impactful heading */
+  font-weight: 300; /* Lighter weight as seen in the Zaha Hadid design */
+  margin-bottom: 15px;
+  color: #000;
+  letter-spacing: -1px; /* Slightly tighter letter-spacing */
+}
+
+.projects-header p {
+  font-size: 1.2em;
+  color: #666;
+  line-height: 1.6;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Modern Projects Grid styling */
+.modern-projects-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* Single column for stacking */
+  gap: 60px; /* Space between stacked project cards */
+  max-width: 1200px; /* Max width to control content size */
+  margin: 0 auto 80px auto; /* Centered with bottom margin */
+  padding: 0 40px; /* Horizontal padding for smaller screens */
+}
+
+/* Project Card styling */
+.project-card {
+  display: flex; /* Flex layout for image and content side-by-side */
+  background-color: #fff;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  flex-direction: column; /* Default to column on small screens */
+}
+
+@media (min-width: 768px) {
+  .project-card {
+    flex-direction: row; /* Row direction on larger screens */
+  }
+
+  .project-card:nth-child(even) {
+    flex-direction: row-reverse; /* Alternate image and text direction */
+  }
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+.project-img-wrapper {
+  flex: 1; /* Image takes available space */
+  min-height: 250px; /* Ensure image wrapper has a min height */
+  overflow: hidden;
+}
+
+.project-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Cover ensures the image fills the area without distortion */
+  display: block;
+  transition: transform 0.3s ease-in-out;
+}
+
+.project-card:hover .project-img-wrapper img {
+  transform: scale(1.05); /* Slight zoom on hover */
+}
+
+.project-card-content {
+  flex: 1.2; /* Content takes a bit more space than the image */
+  padding: 30px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center content vertically */
+}
+
+.project-card-content h2 {
+  font-size: 1.8em;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #000;
+  letter-spacing: 0.5px;
+}
+
+.project-card-content p {
+  font-size: 1em;
+  line-height: 1.7;
+  color: #555;
+  margin-bottom: 25px;
+}
+
+.apply-btn {
+  display: inline-block;
+  background-color: #046241; /* Black background for the button */
+  color: #fff;
+  padding: 12px 25px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.9em;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  align-self: flex-start; /* Align button to the start */
+}
+
+.apply-btn:hover {
+  background-color: #333; /* Slightly lighter black on hover */
+  transform: translateY(-2px);
+}
+
+/* Projects Closing CTA Section */
+.projects-closing-cta {
+  background-color: #1a1a1a; /* Dark background */
+  color: #fff;
+  text-align: center;
+  padding: 100px 20px;
+  margin-top: 80px; /* Space from the projects above */
+}
+
+.closing-cta-text {
+  font-size: 2.8em;
+  font-weight: 300;
+  margin-bottom: 40px;
+  line-height: 1.3;
+  letter-spacing: -0.5px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-button-bottom {
+  display: inline-block;
+  background-color: transparent; /* Transparent button */
+  border: 2px solid #fff; /* White border */
+  color: #fff;
+  padding: 15px 35px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1em;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+.cta-button-bottom:hover {
+  background-color: #fff; /* White background on hover */
+  color: #1a1a1a; /* Dark text on hover */
+  transform: translateY(-3px);
+}
+
+.highlight-dot {
+  color: #fff; /* White dot */
+  margin-left: 8px;
+  font-size: 1.2em;
+  line-height: 0;
+  vertical-align: middle;
+}
+
+.project-video {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}

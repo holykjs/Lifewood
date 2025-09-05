@@ -1,0 +1,151 @@
+/* Universal Reset for body (add this to your main CSS file like index.css or App.css) */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* Variables */
+:root {
+  --white: #ffffff;
+  --darkSerpent: #333333; /* Example dark color */
+  --saffron: #f4c430; /* Example accent color */
+  --lightGrey: #f0f0f0; /* Example for active link background */
+}
+
+.navbar-header {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background: var(--white);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  
+  /* Flexbox for direct children: Logo, Nav, Toggle */
+  display: flex;
+  justify-content: space-between; /* Pushes logo to left, nav/toggle to right */
+  align-items: center;
+  padding: 0 2em; /* Horizontal padding for the entire header */
+  height: 70px; /* Fixed height for the navbar */
+  box-sizing: border-box; /* Include padding in height calculation */
+}
+
+.navbar-logo img {
+  height: 50px; /* Adjusted logo size */
+  width: auto;
+  display: block;
+}
+
+/* Desktop Nav */
+.navbar-nav {
+  display: flex;
+  gap: 2.5em;
+  align-items: center;
+
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.navbar-nav a {
+  color: var(--darkSerpent);
+  font-weight: 500;
+  position: relative;
+  transition: color 0.3s ease, background-color 0.3s ease;
+  padding: 0.5em 0;
+  text-decoration: none;
+  white-space: nowrap; /* Prevent links from wrapping on smaller desktops */
+}
+
+.navbar-nav a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--saffron);
+  transition: width 0.3s ease;
+}
+
+.navbar-nav a:hover,
+.navbar-nav a.active {
+  color: var(--saffron);
+}
+
+.navbar-nav a:hover::after,
+.navbar-nav a.active::after {
+  width: 100%;
+}
+
+/* Mobile Toggle Button */
+.navbar-menu-toggle {
+  display: none; /* Hidden on desktop */
+  color: var(--darkSerpent);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5em;
+}
+
+@media (max-width: 768px) {
+  .navbar-header {
+    padding: 0 1.5em; /* Slightly less padding on smaller screens */
+  }
+
+  .navbar-nav {
+    display: none; /* Hidden by default on mobile */
+    position: absolute;
+    top: 70px; /* Below the navbar */
+    left: 0;
+    width: 100%;
+    flex-direction: column;
+    background: var(--white);
+    padding: 1.5em 0;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+    animation: slideDown 0.3s ease forwards;
+    align-items: center;
+  }
+
+  .navbar-nav a {
+    width: 100%;
+    text-align: center;
+    padding: 0.8em 0;
+  }
+
+  .navbar-nav a:hover,
+  .navbar-nav a.active {
+    background-color: var(--lightGrey);
+  }
+
+  .navbar-nav.open {
+    display: flex; /* Show when 'open' class is present */
+  }
+
+  .navbar-menu-toggle {
+    display: block; /* Show toggle button on mobile */
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-15px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/*
+  Add this to your main CSS file (e.g., index.css or App.css)
+  if you want a consistent content width for your main page.
+*/
+.main-content-wrapper {
+  max-width: 1200px; /* Or your preferred max width */
+  margin: 0 auto; /* Center the content */
+  padding: 20px; /* Add some padding around the content */
+}

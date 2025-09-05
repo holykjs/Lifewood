@@ -1,0 +1,69 @@
+:root {
+  /* Colors */
+  --paper: #f5eedb;
+  --white: #ffffff;
+  --seaSalt: #f9f7f7;
+  --darkSerpent: #133020;
+  --castletonGreen: #046241;
+  --saffron: #ffb347;
+  --earthYellow: #ffc370;
+
+  /* Typography */
+  --font-display: 3.5rem;
+  --font-headline: 2rem;
+  --font-body: 1rem;
+
+  /* Spacing */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 2rem;
+  --space-lg: 4rem;
+  --space-xl: 6rem;
+}
+
+/* Base typography */
+body {
+  font-family: 'Manrope', sans-serif;
+  font-size: var(--font-body);
+  line-height: 1.7;
+  color: var(--darkSerpent);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 {
+  font-size: var(--font-display);
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: var(--space-sm);
+}
+
+h2 {
+  font-size: var(--font-headline);
+  font-weight: 600;
+  margin-bottom: var(--space-sm);
+}
+
+p {
+  font-size: var(--font-body);
+  margin-bottom: var(--space-sm);
+  max-width: 750px;
+}
+
+/* Reusable button */
+.button {
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 0.8em 1.6em;
+  border-radius: 8px;
+  background-color: var(--saffron);
+  color: var(--darkSerpent);
+  border: none;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: var(--earthYellow);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+}
