@@ -11,7 +11,7 @@ const AdminLayout = ({ children }) => {
           <img src={logo} alt="Admin Logo" className="admin-logo-img" />
         </div>
         <nav className="admin-nav">
-          <Link to="/admin/logout" className="admin-nav-link logout">
+          <Link to="/admin/logout" className="admin-nav-link logout" onClick={() => localStorage.removeItem("token")}>
             Logout
           </Link>
         </nav>

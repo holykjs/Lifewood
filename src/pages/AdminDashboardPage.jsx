@@ -19,6 +19,8 @@ const AdminDashboardPage = () => {
   const [confirmAction, setConfirmAction] = useState(null);
   const [selectedApplication, setSelectedApplication] = useState(null);
   const [activeTab, setActiveTab] = useState("personal"); // new for modal tabs
+  const [isEditing, setIsEditing] = useState(false);
+  const [editForm, setEditForm] = useState(null);
 
   useEffect(() => {
     fetchApplications();
@@ -53,6 +55,34 @@ const AdminDashboardPage = () => {
     } catch (error) {
       console.error("Error saving application:", error);
       showAutoPopup("❌ Failed to update status. Please try again.", "error");
+    }
+  };
+
+  const openEditModal = (application) => {
+    setEditForm({ ...application });
+    setIsEditing(true);
+  };
+
+  const closeEditModal = () => {
+    setIsEditing(false);
+    setEditForm(null);
+  };
+
+  const handleEditChange = (field, value) => {
+    setEditForm((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleSaveEdit = async () => {
+    if (!editForm || !editForm._id) return;
+    try {
+      const { _id, ...payload } = editForm;
+      await API.put(`/applications/${_id}`, payload);
+      setApplications((prev) => prev.map((app) => (app._id === _id ? { ...app, ...payload } : app)));
+      closeEditModal();
+      showAutoPopup("✅ Application updated successfully!", "success");
+    } catch (error) {
+      console.error("Error updating application:", error);
+      showAutoPopup("❌ Failed to update application. Please try again.", "error");
     }
   };
 
@@ -160,6 +190,12 @@ const AdminDashboardPage = () => {
                       👁 View
                     </button>
                     <button
+                      onClick={() => openEditModal(app)}
+                      className="btn btn-secondary"
+                    >
+                      ✏️ Edit
+                    </button>
+                    <button
                       onClick={() => handleDelete(app._id)}
                       className="btn btn-danger"
                     >
@@ -172,14 +208,14 @@ const AdminDashboardPage = () => {
           </table>
         </div>
 
-        {/* ✅ Application Detail Modal with Tabs */}
+        {/* ✅ Application Detail Modal (Read-only, same format as Edit) */}
         {selectedApplication && (
           <div className="modal-overlay">
             <div className="modal-box profile-modal">
               <div className="profile-header">
                 <div className="profile-avatar">
-                  {selectedApplication.firstName.charAt(0)}
-                  {selectedApplication.lastName.charAt(0)}
+                  {selectedApplication.firstName?.charAt(0)}
+                  {selectedApplication.lastName?.charAt(0)}
                 </div>
                 <h2>
                   {selectedApplication.firstName} {selectedApplication.lastName}
@@ -187,82 +223,68 @@ const AdminDashboardPage = () => {
                 <p className="profile-email">{selectedApplication.email}</p>
               </div>
 
-              {/* Tabs */}
-              <div className="tabs">
-                <button
-                  className={activeTab === "personal" ? "active" : ""}
-                  onClick={() => setActiveTab("personal")}
-                >
-                  Personal
-                </button>
-                <button
-                  className={activeTab === "education" ? "active" : ""}
-                  onClick={() => setActiveTab("education")}
-                >
-                  Education
-                </button>
-                <button
-                  className={activeTab === "application" ? "active" : ""}
-                  onClick={() => setActiveTab("application")}
-                >
-                  Application
-                </button>
-              </div>
-
-              {/* Tab Content */}
-              <div className="profile-details">
-                {activeTab === "personal" && (
-                  <>
-                    <div>
-                      <strong>🎂 Age:</strong> {selectedApplication.age || "-"}
-                    </div>
-                    <div>
-                      <strong>📧 Email:</strong> {selectedApplication.email}
-                    </div>
-                  </>
-                )}
-                {activeTab === "education" && (
-                  <>
-                    <div>
-                      <strong>🎓 Degree:</strong>{" "}
-                      {selectedApplication.degree || "-"}
-                    </div>
-                    <div>
-                      <strong>💼 Experience:</strong>{" "}
-                      {selectedApplication.relevantExperience || "-"}
-                    </div>
-                  </>
-                )}
-                {activeTab === "application" && (
-                  <>
-                    <div>
-                      <strong>📌 Project:</strong>{" "}
-                      {selectedApplication.projectAppliedFor}
-                    </div>
-                    <div>
-                      <strong>📄 Resume:</strong>{" "}
-                      {selectedApplication.resume ? (
-                        <a
-                          href={
-                            selectedApplication.resume.startsWith("http")
-                              ? selectedApplication.resume
-                              : `https://${selectedApplication.resume}`
-                          }
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="resume-link"
-                        >
-                          View Resume
-                        </a>
-                      ) : (
-                        "No Resume"
-                      )}
-                    </div>
-                    <div>
-                      <strong>📊 Status:</strong> {selectedApplication.status}
-                    </div>
-                  </>
-                )}
+              <div
+                className="profile-details"
+                style={{ display: "grid", gap: "10px", maxHeight: "60vh", overflowY: "auto" }}
+              >
+                <div>
+                  <strong>First Name</strong>
+                  <div className="search-input" style={{ padding: "10px" }}>{selectedApplication.firstName || "-"}</div>
+                </div>
+                <div>
+                  <strong>Last Name</strong>
+                  <div className="search-input" style={{ padding: "10px" }}>{selectedApplication.lastName || "-"}</div>
+                </div>
+                <div>
+                  <strong>Email</strong>
+                  <div className="search-input" style={{ padding: "10px" }}>{selectedApplication.email || "-"}</div>
+                </div>
+                <div>
+                  <strong>Age</strong>
+                  <div className="search-input" style={{ padding: "10px" }}>{selectedApplication.age || "-"}</div>
+                </div>
+                <div>
+                  <strong>Degree</strong>
+                  <div className="search-input" style={{ padding: "10px" }}>{selectedApplication.degree || "-"}</div>
+                </div>
+                <div>
+                  <strong>Relevant Experience</strong>
+                  <div className="search-input" style={{ padding: "10px" }}>{selectedApplication.relevantExperience || "-"}</div>
+                </div>
+                <div>
+                  <strong>Project Applied For</strong>
+                  <div className="search-input" style={{ padding: "10px" }}>{selectedApplication.projectAppliedFor || "-"}</div>
+                </div>
+                <div>
+                  <strong>Resume URL</strong>
+                  <div className="search-input" style={{ padding: "10px" }}>
+                    {selectedApplication.resume ? (
+                      <a
+                        href={
+                          selectedApplication.resume.startsWith("http")
+                            ? selectedApplication.resume
+                            : `https://${selectedApplication.resume}`
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="resume-link"
+                      >
+                        View Resume
+                      </a>
+                    ) : (
+                      "No Resume"
+                    )}
+                  </div>
+                </div>
+                <div>
+                  <strong>Status</strong>
+                  <div
+                    className="status-dropdown"
+                    style={{ padding: "10px", background: statusColors[selectedApplication.status] || "#ccc" }}
+                  >
+                    {selectedApplication.status}
+                  </div>
+                </div>
               </div>
 
               {/* Modal Actions */}
@@ -318,6 +340,112 @@ const AdminDashboardPage = () => {
                   </button>
                 </div>
               ) : null}
+            </div>
+          </div>
+        )}
+
+        {/* ✏️ Edit Applicant Modal */}
+        {isEditing && editForm && (
+          <div className="modal-overlay">
+            <div className="modal-box profile-modal">
+              <div className="profile-header">
+                <div className="profile-avatar">
+                  {editForm.firstName?.charAt(0)}
+                  {editForm.lastName?.charAt(0)}
+                </div>
+                <h2>
+                  Edit: {editForm.firstName} {editForm.lastName}
+                </h2>
+                <p className="profile-email">{editForm.email}</p>
+              </div>
+
+              <div className="profile-details" style={{ display: "grid", gap: "10px", maxHeight: "60vh", overflowY: "auto" }}>
+                <div>
+                  <strong>First Name</strong>
+                  <input
+                    className="search-input"
+                    value={editForm.firstName || ""}
+                    onChange={(e) => handleEditChange("firstName", e.target.value)}
+                  />
+                </div>
+                <div>
+                  <strong>Last Name</strong>
+                  <input
+                    className="search-input"
+                    value={editForm.lastName || ""}
+                    onChange={(e) => handleEditChange("lastName", e.target.value)}
+                  />
+                </div>
+                <div>
+                  <strong>Email</strong>
+                  <input
+                    className="search-input"
+                    type="email"
+                    value={editForm.email || ""}
+                    onChange={(e) => handleEditChange("email", e.target.value)}
+                  />
+                </div>
+                <div>
+                  <strong>Age</strong>
+                  <input
+                    className="search-input"
+                    type="number"
+                    value={editForm.age || ""}
+                    onChange={(e) => handleEditChange("age", e.target.value)}
+                  />
+                </div>
+                <div>
+                  <strong>Degree</strong>
+                  <input
+                    className="search-input"
+                    value={editForm.degree || ""}
+                    onChange={(e) => handleEditChange("degree", e.target.value)}
+                  />
+                </div>
+                <div>
+                  <strong>Relevant Experience</strong>
+                  <input
+                    className="search-input"
+                    value={editForm.relevantExperience || ""}
+                    onChange={(e) => handleEditChange("relevantExperience", e.target.value)}
+                  />
+                </div>
+                <div>
+                  <strong>Project Applied For</strong>
+                  <input
+                    className="search-input"
+                    value={editForm.projectAppliedFor || ""}
+                    onChange={(e) => handleEditChange("projectAppliedFor", e.target.value)}
+                  />
+                </div>
+                <div>
+                  <strong>Resume URL</strong>
+                  <input
+                    className="search-input"
+                    value={editForm.resume || ""}
+                    onChange={(e) => handleEditChange("resume", e.target.value)}
+                  />
+                </div>
+                <div>
+                  <strong>Status</strong>
+                  <select
+                    className="status-dropdown"
+                    value={editForm.status}
+                    onChange={(e) => handleEditChange("status", e.target.value)}
+                    style={{ background: statusColors[editForm.status] || "#ccc" }}
+                  >
+                    <option value="Pending" style={{ background: statusColors.Pending }}>Pending</option>
+                    <option value="Reviewed" style={{ background: statusColors.Reviewed }}>Reviewed</option>
+                    <option value="Accepted" style={{ background: statusColors.Accepted }}>Accepted</option>
+                    <option value="Rejected" style={{ background: statusColors.Rejected }}>Rejected</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="modal-actions">
+                <button className="btn btn-success" onClick={handleSaveEdit}>💾 Save</button>
+                <button className="btn btn-secondary" onClick={closeEditModal}>Cancel</button>
+              </div>
             </div>
           </div>
         )}

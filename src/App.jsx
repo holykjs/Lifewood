@@ -10,6 +10,7 @@ import NavBar from "./components/NavBar";
 import { colors } from './colors'; 
 import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
+import Logout from "./pages/Logout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminLayout from "./components/AdminLayout";
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -31,8 +32,7 @@ function AppContent() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/courses" element={<ProjectsPage />} />
         <Route path="/admin/login" element={<AdminLoginPage />} />
-        <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
-        <Route path="/admin/logout" element={<Navigate to="/admin/login" replace />} />
+        <Route path="/admin/logout" element={<Logout />} />
         <Route
           path="/admin/dashboard"
           element={

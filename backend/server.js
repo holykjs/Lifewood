@@ -19,10 +19,32 @@ mongoose.connect(process.env.MONGO_URI)
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
 const app = express();
-app.use(cors());
 app.use(express.json());
 
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+// CORS configuration: allow list from env FRONTEND_ORIGINS (comma-separated)
+const defaultAllowedOrigins = [
+  "http://localhost:5173",
+  "http://127.0.0.1:5173",
+  "https://lifewood-one.vercel.app",
+];
+const envAllowedOrigins = (process.env.FRONTEND_ORIGINS || "")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
+const allowedOrigins = envAllowedOrigins.length
+  ? envAllowedOrigins
+  : defaultAllowedOrigins;
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true); // allow same-origin/non-browser requests
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      return callback(new Error(`CORS: Origin not allowed: ${origin}`));
+    },
+    credentials: true,
+  })
+);
 
 app.get("/", (req, res) => {
   res.send("API is running...");

@@ -71,7 +71,7 @@
 
 .project-img-wrapper {
   flex: 1; /* Image takes available space */
-  min-height: 250px; /* Ensure image wrapper has a min height */
+  height: 320px; /* Fixed height to keep all cards consistent */
   overflow: hidden;
 }
 
@@ -181,7 +181,13 @@
 
 .project-video {
   width: 100%;
-  height: auto;
-  border-radius: 8px;
+  height: 100%;
   object-fit: cover;
+  display: block;
+}
+
+@media (min-width: 1024px) {
+  .project-img-wrapper {
+    height: 380px; /* Slightly taller on larger screens for presence */
+  }
 }

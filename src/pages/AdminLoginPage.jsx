@@ -17,7 +17,8 @@ const AdminLoginPage = () => {
     try {
       const { data } = await API.post("/auth/login", { username, password });
       localStorage.setItem("token", data.token);
-      navigate("/admin/dashboard");
+      // Use replace to prevent back navigation to login page
+      navigate("/admin/dashboard", { replace: true });
     } catch (err) {
       setError("Invalid username or password. Please try again.");
     }
