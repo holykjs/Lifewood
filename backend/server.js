@@ -35,8 +35,20 @@ const allowedOrigins = envAllowedOrigins.length
   ? envAllowedOrigins
   : defaultAllowedOrigins;
 
-// Use array allowlist so CORS always sets headers on allowed origins
-const corsOptions = { origin: allowedOrigins, credentials: true };
+// CORS allow function: exact allowlist or any https *.vercel.app
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    try {
+      const url = new URL(origin);
+      const isVercel = url.protocol === "https:" && url.hostname.endsWith(".vercel.app");
+      if (isVercel) return callback(null, true);
+    } catch {}
+    return callback(new Error(`CORS: Origin not allowed: ${origin}`));
+  },
+  credentials: true,
+};
 app.use(cors(corsOptions));
 // Ensure preflight requests succeed
 app.options("*", cors(corsOptions));
