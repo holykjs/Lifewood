@@ -50,8 +50,13 @@ const corsOptions = {
   credentials: true,
 };
 app.use(cors(corsOptions));
-// Ensure preflight requests succeed (Express 5: avoid '*' which breaks path-to-regexp)
-app.options(["/api/*", "/"], cors(corsOptions));
+// Ensure preflight requests succeed for all routes in Express 5
+app.use((req, res, next) => {
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(204);
+  }
+  next();
+});
 
 app.get("/", (req, res) => {
   res.send("API is running...");
