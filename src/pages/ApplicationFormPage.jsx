@@ -5,6 +5,7 @@ import { colors } from "../colors";
 import "../styles/form.css";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import API from "../services/api";
 import { 
   User, 
   GraduationCap, 
@@ -53,15 +54,7 @@ const ApplicationFormPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:5000/api/applications", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) throw new Error("Failed to submit application");
-
-      const data = await response.json();
+      const { data } = await API.post("/applications", formData);
       console.log("✅ Application saved:", data);
 
       // reset form

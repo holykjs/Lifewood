@@ -35,16 +35,11 @@ const allowedOrigins = envAllowedOrigins.length
   ? envAllowedOrigins
   : defaultAllowedOrigins;
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin) return callback(null, true); // allow same-origin/non-browser requests
-      if (allowedOrigins.includes(origin)) return callback(null, true);
-      return callback(new Error(`CORS: Origin not allowed: ${origin}`));
-    },
-    credentials: true,
-  })
-);
+// Use array allowlist so CORS always sets headers on allowed origins
+const corsOptions = { origin: allowedOrigins, credentials: true };
+app.use(cors(corsOptions));
+// Ensure preflight requests succeed
+app.options("*", cors(corsOptions));
 
 app.get("/", (req, res) => {
   res.send("API is running...");
